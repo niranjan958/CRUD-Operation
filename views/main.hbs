@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mongodb CRUD Operation</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <style>
+        .section1 {
+            display: flex;
+            justify-content: center;
+        }
+
+        .wis {
+            font-size: 40px;
+            text-align: center;
+            color: crimson
+        }
+        .wow{
+            text-align: center;
+        }
+
+        .body1 {
+            font-size: 20px;
+            width: 600px;
+            padding: 15px;
+        }
+
+        .thrill {
+            line-height: 30px;
+            padding: 10px;
+        }
+
+        .goldberg {
+            color: rgb(1, 0, 27);
+        }
+
+        input {
+            float: right;
+            border-radius: 5px;
+            width: 300px;
+        }
+
+        .dude {
+            font-size: 15px;
+            background-color: rgb(18, 49, 223);
+            border-radius: 3px;
+            border: 2px solid black;
+            color: rgb(34, 27, 27);
+            font-weight:500;
+        }
+
+        .buttoning {
+            background-color: blue;
+            border: none;
+            font-size: 20px;
+            width: 100%;
+            padding: 5px;
+            margin-top: 30px;
+        }
+
+        .buttoning:hover {
+            background-color: crimson;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wis">Mongodb CRUD Operation</div>
+    <div class="wis">{{message}}</div>
+    <br>
+    {{#if edit_id}}
+    <div class="wow">
+        <h3>Edit</h3>
+    </div>
+
+    <div class="section1">
+        <div class="body1">
+            <form method="post" action="/update_detail/{{edit_id}}">
+
+                <div class="thrill">
+                    <label for="" class="goldberg">Name</label>
+                    <input type="text " name="name" class="dude" value="{{edit_detail.name}}">
+                </div>
+
+                <div class="thrill">
+                    <label for="" class="goldberg">Email</label>
+                    <input type="email" name="email" class="dude" value="{{edit_detail.email}}">
+                </div>
+
+                <div class="thrill">
+                    <label for="" class="goldberg">Phone Number</label>
+                    <input type="number" name="phone" class="dude" value="{{edit_detail.phone}}">
+                </div>
+
+                <div class="thrill">
+                    <label for="" class="goldberg">Age</label>
+                    <input type="number " name="phone" class="dude" value="{{edit_detail.age}}">
+                </div>
+
+                <div class="thrill">
+                    <label for="" class="goldberg">password</label>
+                    <input type="password" name="password" class="dude" value="{{edit_detail.password}}">
+                </div>
+
+                <div class="thrill">
+                    <input type="submit" class="buttoning">
+                </div>
+            </form><br><br>
+        </div>
+    </div>
+    {{else}}
+    
+    <div class="wow"><h3>Create</h3></div>
+    <div class="section1">
+        <div class="body1">
+            <form method="post" action="/store_detail">
+
+                <div class="thrill">
+                    <label for="name" class="goldberg">Name</label>
+                    <input type="text " name="name" id="name" class="dude">
+                    <p id="call1" style="color:red;"></p>
+
+                </div>
+                <div class="thrill">
+                    <label for="email" class="goldberg">Email</label>
+                    <input type="email" name="email" id="email" class="dude">
+                    <p id="call2" style="color:red;"></p>
+                </div>
+                <div class="thrill">
+                    <label for="phone" class="goldberg">Phone Number</label>
+                    <input type="number" name="phone" id="phone" class="dude">
+                    <p id="call3" style="color:red;"></p>
+                </div>
+                <div class="thrill">
+                    <label for="age" class="goldberg">Age</label>
+                    <input type="number" name="age" id="age" class="dude">
+                    <p id="call4" style="color:red;"></p>
+                </div>
+                <div class="thrill">
+                    <label for="password" class="goldberg">Password</label>
+                    <input type="password" name="password" id="password" class="dude">
+                    <p id="call5" style="color:red;"></p>
+                </div>
+                <div class="thrill">
+                    <input type="submit" id="submit" class="buttoning" onclick='formp()'>
+                </div>
+            </form><br><br>
+        </div>
+    </div>
+    {{/if}}
+
+    <ul>
+        <table class="table table-dark table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Age</th>
+                    <th>Password</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each details}}
+                <tr>
+                    <td> {{this.name}}</td>
+                    <td> {{this.email}}</td>
+                    <td> {{this.phone}}</td>
+                    <td> {{this.age}}</td>
+                    <td> {{this.password}}</td>
+                    <td> <a href="/?edit_id={{this._id}}">Edit</a></td>
+                    <td><a href="/?delete_id={{this._id}}"
+                            onclick="return confirm('Are you sure want to delete?')">Delete</a></li>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </ul>
+
+   
+</body>
+
+</html>
